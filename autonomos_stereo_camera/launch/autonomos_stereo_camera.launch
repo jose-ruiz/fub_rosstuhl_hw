@@ -1,0 +1,25 @@
+<!--
+  	@autor Jose Alvarez-Ruiz <jose.alvarez-ruiz@fu-berlin.de>
+	@date March 2016 
+-->
+
+
+<launch>
+
+  <group ns="autonomos_stereo">
+	<node name="autonomos_stereo_camera_node"
+		  pkg="autonomos_stereo_camera"
+		  type="autonomos_stereo_camera_node"
+		  respawn= "true"
+		  output="screen" />
+
+  </group>
+  <!-- <include file="$(find autonomos_stereo_camera)/launch/point_cloud.launch" /> -->
+  <node pkg="viso2_ros" type="stereo_odometer" name="viso2_stereo_odometer"
+		respawn="true" output="screen">
+		
+  	<remap from="stereo" to="/autonomos_stereo" />
+  	<remap from="image" to="image_rect" />
+  </node>
+
+</launch>

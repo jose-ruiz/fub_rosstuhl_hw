@@ -1,0 +1,32 @@
+<!--
+  	@autor Jose Alvarez-Ruiz <jose.alvarez-ruiz@fu-berlin.de>
+	@date May 2016
+
+This launch file instantiates a lc_gps_imu_publisher that streams IMU data
+and GPS NMEA strings. Then it instantiates a nmea_topic_driver that interprets
+the raw strings and publishes GPS information.
+-->
+
+
+
+
+<launch>
+  <group ns="lc_gps_imu">
+	<node pkg="lc_gps_imu" type="lc_gps_imu_publisher.py" name="lc_gps_imu_publisher"
+		  output= "screen" respawn="true">
+	  <remap from="nmea_sentence" to="gps/nmea_sentence" />
+	  <remap from="imu_raw" to="imu/imu_raw" />	  
+	</node>
+	<node pkg="lc_gps_imu" type="imu_prep.py" name="imu_prep_1"
+		  output="screen" respawn="true" >
+	  <remap from="imu" to="imu/imu_raw" />
+	  <remap from="imu_prep" to="imu/imu_prep" />
+	  <remap from="odom" to="/xeno/base_controller/odom" />
+	</node>
+  
+	<node pkg="nmea_navsat_driver" type="nmea_topic_driver" name="nmea_topic_driver"
+		  output= "screen" ns= "gps">
+	</node>
+	<include file="$(find lc_gps_imu)/launch/send_tf.launch" />
+  </group>
+</launch>

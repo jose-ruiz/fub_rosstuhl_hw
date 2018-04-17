@@ -1,0 +1,8 @@
+<!--
+	@author Jose Alvarez-Ruiz <jose.alvarez-ruiz@fu-berlin.de>
+	@date   June 2016
+-->
+
+<launch>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find xeno_interface)/config/visualization.rviz"/>
+</launch>

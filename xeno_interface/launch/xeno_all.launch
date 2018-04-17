@@ -1,0 +1,10 @@
+<!--
+  	@autor Jose Alvarez-Ruiz <jose.alvarez-ruiz@fu-berlin.de>
+	@date March 2016 
+-->
+
+<launch>
+  <param name="camera_info_uri" value="///home/alleine/kodap_sp360/calib.yaml" />
+  <include file="$(find xeno_interface)/launch/xeno.launch" />  
+  <include file="$(find xeno_interface)/launch/xeno_offline.launch" />
+</launch>

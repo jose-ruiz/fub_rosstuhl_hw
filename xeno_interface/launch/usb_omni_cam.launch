@@ -1,0 +1,11 @@
+<launch>
+  <node name= "omnicam1" pkg="usb_cam" type= "usb_cam_node" >
+    <param name="camera_frame_id" type="string" value="omnicam1" />
+     <param name="pixel_format" type="string" value="yuyv" />
+    <param name="image_width" type="int" value="640" />
+    <param name="image_height" type="int" value="480" />
+    <param name="autofocus" type="boolean" value="false" />
+    <param name="framerate" type="int" value="25" />
+    <param name="camera_name" type="string" value="omnicam1" />
+  </node>
+</launch>

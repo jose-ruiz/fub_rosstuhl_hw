@@ -1,0 +1,34 @@
+<!--
+	@author Jose Alvarez-Ruiz <jose.alvarez-ruiz@fu-berlin.de>
+	@date   August 2016
+
+Transforms the disparity map into a point cloud. It can also used to get point clouds when
+playing a ROS bag.
+
+-->
+
+<launch>
+  <group ns="autonomos_stereo">
+
+	<!-- Run nodelet manager (needed by PointCloud2) -->
+	<node pkg="nodelet"
+		  type="nodelet"
+		  name="point_cloud2_manager"
+		  args="manager" />
+
+	<arg name="manager" default="point_cloud2_manager" /> <!-- Must be globally qualified -->
+	<arg name="respawn" default="false" />
+
+	<arg if="$(arg respawn)" name="bond" value="" />
+	<arg unless="$(arg respawn)" name="bond" value="--no-bond" />
+
+  <!-- PointCloud2 -->
+  <node pkg="nodelet" type="nodelet" name="point_cloud2"
+        args="load stereo_image_proc/point_cloud2 $(arg manager) $(arg bond)"
+        respawn="$(arg respawn)"
+		output="screen">
+	<remap from="left/image_rect_color" to="left/image_rect" />
+	<remap from="right/image_rect_color" to="right/image_rect" /> 	
+  </node>
+  </group>
+</launch>

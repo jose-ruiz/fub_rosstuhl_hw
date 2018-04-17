@@ -1,0 +1,25 @@
+<!-- @author Jose Alvarez-Ruiz -->
+<!-- @date   May 2016 -->
+
+<launch>
+  <arg name= "marker_size" default= "33.0" /> <!-- cm -->
+  <arg name= "marker_y_offset" default= "0.165" /> <!-- m -->
+  <arg name= "marker_x_offset" default="1.165" /> <!-- m -->
+
+  <node pkg="tf" type="static_transform_publisher"
+		args="2.765 0.165 0.0 0.0 0.0 0.0 pref ar_marker_0_dummy 100"
+		name= "pref_ar_marker_0_tf_publisher"/>"
+  <node pkg="tf" type="static_transform_publisher" name="stere1_"
+        args="0.0 -0.35 0.0 0.0 0.0 0.0 base_footprint pref 100" />
+  <node pkg= "xeno_extrinsic_calibration" type="base_to_camera.py" 
+  name="base_to_camera" output="screen"/> 
+  
+ <arg name= "max_new_marker_error" default= "0.08" />
+ <arg name= "max_track_error" default= "0.2" />
+ <arg name= "cam_image_topic" default= "/autonomos_stereo/left/image_mono" />
+ <arg name= "cam_info_topic" default= "/autonomos_stereo/left/camera_info" />
+ <arg name= "output_frame" default= "/stereo1_left" /> 
+ <node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false" output="screen" args="$(arg marker_size) $(arg max_new_marker_error) $(arg max_track_error) $(arg cam_image_topic) $(arg cam_info_topic) $(arg output_frame)" />
+</launch>
+
+<!-- rosrun ar_track_alvar createMarker -uin -s 6 -p -u 200 -p -->

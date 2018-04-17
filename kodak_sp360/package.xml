@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<package>
+  <name>kodak_sp360</name>
+  <version>0.0.0</version>
+  <description>
+	The kodak_sp360 package catches the images streamed by the Kodak SP360 via a
+	wireless ad-hoc network, and publishes them as ROS images. If everything is
+	setup properly, the camera will deliver 8 frames per second.
+
+	To get best results, make sure that the camera has its battery installed and
+	connect the camera to a power source using a USB power cable. Otherwise, the
+	camera will drop many frames and the connection will have significant lag
+	and may even crash. A normal USB cable will not work, because if connected,
+	the camera would not drain power from it and would automatically switch into
+	USB transfer mode instead of streaming frames.
+	
+  </description>
+
+  <!-- One maintainer tag required, multiple allowed, one person per tag --> 
+  <!-- Example:  -->
+  <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
+  <maintainer email="jose.alvarez-ruiz@fu-berlin.de">Jose Alvarez-Ruiz</maintainer>
+
+
+  <!-- One license tag required, multiple allowed, one license per tag -->
+  <!-- Commonly used license strings: -->
+  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
+  <license>propietary</license>
+
+
+  <!-- Url tags are optional, but mutiple are allowed, one per tag -->
+  <!-- Optional attribute type can be: website, bugtracker, or repository -->
+  <!-- Example: -->
+  <!-- <url type="website">http://wiki.ros.org/kodak_sp360</url> -->
+
+
+  <!-- Author tags are optional, mutiple are allowed, one per tag -->
+  <!-- Authors do not have to be maintianers, but could be -->
+  <!-- Example: -->
+  <author email="jose.alvarez-ruiz@fu-berlin.de">Jose Alvarez-Ruiz</author> 
+
+
+  <!-- The *_depend tags are used to specify dependencies -->
+  <!-- Dependencies can be catkin packages or system dependencies -->
+  <!-- Examples: -->
+  <!-- Use build_depend for packages you need at compile time: -->
+  <!--   <build_depend>message_generation</build_depend> -->
+  <!-- Use buildtool_depend for build tool packages: -->
+  <!--   <buildtool_depend>catkin</buildtool_depend> -->
+  <!-- Use run_depend for packages you need at runtime: -->
+  <!--   <run_depend>message_runtime</run_depend> -->
+  <!-- Use test_depend for packages you need only for testing: -->
+  <!--   <test_depend>gtest</test_depend> -->
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>camera_info_manager</build_depend>
+  <run_depend>cv_bridge</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>camera_info_manager</run_depend>
+  <run_depend>image_proc</run_depend>
+
+
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>

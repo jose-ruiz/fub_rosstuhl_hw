@@ -1,0 +1,15 @@
+<!--
+  	@autor Jose Alvarez-Ruiz <jose.alvarez-ruiz@fu-berlin.de>
+	@date June 2016 
+-->
+<launch>
+  <arg name="gui" default="False" />
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find xeno_interface)/models/xeno.xacro"/>
+  <param name="use_gui" value="true"/>
+  <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /> -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher"
+		type="state_publisher" />
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_stereo1_left_transform_publisher"
+		args="0.022345 0.044687 1.380303 -1.634996 0.003081 -1.777242 base_link stereo1_left 100"
+		/>
+</launch>

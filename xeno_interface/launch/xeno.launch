@@ -1,0 +1,63 @@
+<!--
+  	@autor Jose Alvarez-Ruiz <jose.alvarez-ruiz@fu-berlin.de>
+	@date  February 2016 
+-->
+
+<launch>
+rosrun fub_sound fub_sound_server.py
+
+
+  <include
+	  file="$(find xeno_interface)/launch/xeno_model.launch" />
+
+<node pkg="fub_sound" name="sound_server" type="fub_sound_server.py" />
+  
+  <group ns="/xeno">
+	<node name="emergency_button" pkg="xeno_interface"  type= "emergency_button_publisher.py" 
+	respawn="true"  output="screen"/> 
+
+	<node name="xeno_interface_node" pkg="xeno_interface" 
+  		  type="xeno_interface_node" respawn="true" output="screen"/>  
+
+	<!-- Load differential controller configurations into the parameter server -->
+	<rosparam file="$(find xeno_interface)/config/xeno_controller.cfg" command="load"/>
+
+	<node name="encoders_publisher" pkg="xeno_interface"
+		  type="encoders_publisher.py"
+		  respawn= "true"/>
+	
+	 <node name="controller_spawner" pkg="controller_manager" type="spawner" 
+		  respawn="false" args="base_controller"/> 
+
+	 <node name="xeno_controller_node" pkg="xeno_interface" 
+	 	   type="xeno_controller_node" output="screen" respawn="True" />
+	 
+		  
+  <node name="stop_multiplexer" pkg="xeno_interface" type="stop_multiplexer.py"
+		respawn="true" output="screen"/>
+  </group>
+
+  <include file="$(find xeno_interface)/launch/usb_omni_cam.launch" />
+  
+  <group ns="omnicam2">
+    <param name="flip" type="bool" value="true" />
+    <param name="flip_code" type="int" value="1" />
+    <include file="$(find kodak_sp360)/launch/kodak_sp360.launch">
+
+    </include>
+  
+  </group> 
+
+  <!-- <include file="$(find autonomos_stereo_camera)/launch/autonomos_stereo_camera.launch"/> -->
+  
+  
+   <include file="$(find lc_gps_imu)/launch/lc_gps_imu.launch" /> 
+
+   <node name="wifi_info_publisher" pkg="fub_path_following"
+		 type="wifi_info_publisher_node.py" output="screen" respawn="true"/>
+
+   <node pkg="fub_sound" type="fub_sound_server.py" name="fu_sound_server"
+		respawn="true" />
+
+   
+</launch>

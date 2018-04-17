@@ -1,0 +1,24 @@
+<!--
+	@author Jose Alvarez-Ruiz <jose.alvarez-ruiz@fu-berlin.de>
+	@date   August 2016
+-->
+
+<launch>
+  
+  <include
+	  file="$(find xeno_interface)/launch/xeno_model.launch" />
+
+  <include
+	  file="$(find autonomos_stereo_camera)/launch/point_clouds.launch" />
+
+  
+  <include
+	  file="$(find fub_path_following)/launch/path_following.launch" />
+
+<!-- <include
+	  file="$(find
+			fub_rosstuhl_obstacle_ground_segmentation)/launch/obstacle_ground_segmentation.launch"
+	  />
+-->  
+
+</launch>

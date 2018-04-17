@@ -1,0 +1,109 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          xeno_can
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Required-Start:    $network
+# Required-Stop:
+# Short-Description: Xeno's CAN bus configuration
+# Description:       Xeno CAN bus configuration
+### END INIT INFO
+
+
+
+## @author Jose Alvarez-Ruiz <jose.alvarez-ruiz@fu-berlin.de>
+## @date   April 2016
+##
+## This init-script sets up the CAN bus interface of the Xeno wheelchair.
+## Three commands are supported. `start' prepares the CAN bus interface
+## to transfer data, whereas `stop' shuts it down. The third command `restart'
+## will require intervention of the user. This command will first bring the
+## wheelchair into an error state. At this point, the user will have to shut down
+## the wheelchair, wait 5 seconds, and then power on the wheelchair again. The
+## restart command results useful in cases in which the wheelchair stop listening
+## to messages sent through the used interface.
+## This script currently only supports the use of one CAN bus interface, which has
+## to be called can0.
+
+CMD=$1
+IFACE=can0
+BITRATE=250000
+
+iface_down() {
+	iface=$1
+	echo "Bringing CAN bus interface \`$iface' down..."
+	ifconfig "$iface" down
+	
+}
+
+iface_up() {
+	iface=$1
+	bitrate=$2
+	down_first=$3
+	if [ "${down_first}" == true ]; then
+		echo "Trying to bring down for unknown reason..."
+		iface_down "$iface"
+	fi
+        echo "Bringing CAN bus interface \`$iface' up..."
+	ip link set "$iface" type can bitrate "$bitrate"
+	ifconfig "$iface" up
+}
+
+bypass_shutdown () {
+	echo "Xeno shutdown bypass active..."
+	while true; do
+		cansend can0 672#0701000000000000
+		cansend can0 671#0001000000000000
+		cansend can0 672#0700000000000000
+		cansend can0 671#0000000000000000
+		sleep 1		
+	done&
+}
+
+killall_older_than() {
+	# kill instances of xeno_can process that are older than
+	# PID of main
+	pid=$1
+	echo "Killing old xeno_can instances older than " $pid
+	instances=`ps -C xeno_can | grep ":" | sed  's/\([0-9]\+\) .*/\1/g'`
+	for instance in $instances; do
+		if [ "$instance" -lt "$pid" ]; then
+			echo "    Killing PID " $instance ...
+			kill -9 $instance
+		else
+			echo "    Keeping PID " $instance ...		
+		fi
+	done
+	
+}
+
+case $CMD in
+	start)
+		killall_older_than $BASHPID
+		echo "Starting up!"
+		iface_up "$IFACE" "$BITRATE" true
+		bypass_shutdown
+		;;
+	stop)
+		killall_older_than $BASHPID
+		echo "Stopping CAN Bus"
+		iface_down "$IFACE"
+		;;
+	restart)		
+		echo "Restarting CAN Bus. This will bring the wheelchair into an error state."
+		echo "Stopping keep-alive process"
+		killall_older_than $BASHPID
+		echo "Turn the wheelchair off and wait 5 seconds before turning it on again"
+		sleep 3
+		echo "Performing hard-reset to the CAN Bus"
+		iface_up "$IFACE" 1000000 true
+		sleep 5
+		iface_up "$IFACE" "$BITRATE" true
+		sleep 1
+		bypass_shutdown
+		;;
+	*)
+		echo "Invalid command! Valid commands are: \`start', \`stop' and \`restart'..."
+		;;
+esac
+

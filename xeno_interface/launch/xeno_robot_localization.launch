@@ -1,0 +1,56 @@
+<!--
+	@author Jose Alvarez-Ruiz <jose.alvarez-ruiz@fu-berlin.de>
+	@date   June 2016
+-->
+
+<launch>
+  <node pkg="robot_localization" type="ekf_localization_node"
+		name="xeno_robot_localization" clear_params="true"
+		ns= "odom_wheels_imu">
+  <param name="odom0" value="/lc_gps_imu/odom_prep"/>
+  <param name="imu0" value="/lc_gps_imu/imu/imu_prep"/>
+  <param name="frequency" value="30" />
+  <param name="sensor_timeout" value="0.1"/>
+  <param name="odom_frame" value="odom"/> 
+  <param name="base_link_frame" value="base_footprint"/>
+  <param name="world_frame" value="odom"/>
+  <param name="two_d_mode" value="false"/>
+  <!--
+	  X, Y, Z,
+	  roll, pitch, yaw,
+	  X velocity, Y velocity, Z velocity,
+	  roll velocity, pitch velocity, yaw velocity,
+	  X acceleration, Y acceleration, and Z acceleration
+	  -->
+  <rosparam param="odom0_config">[false, false, false,
+  false, false, false,
+  true,  false, false,
+  false, false, true,
+  false, false, false]</rosparam>
+  
+ <rosparam param="imu0_config">[false, false, false,
+false,false,false,
+false, false, false,
+true,true,true,
+false,false,false]
+ </rosparam>
+
+<param name="odom0_queue_size" value="2"/>
+<param name="imu0_queue_size" value="10"/>
+<param name="odom0_pose_rejection_threshold" value="5"/>
+ <param name="odom0_twist_rejection_threshold" value="1"/>
+<param name="imu0_pose_rejection_threshold" value="0.3"/>
+ <param name="imu0_twist_rejection_threshold" value="0.8"/>
+<param name="imu0_linear_acceleration_rejection_threshold" value="0.5"/>
+
+
+ 
+<param name="odom0_differential" value="false"/> 
+<param name="imu0_differential" value="false"/> 
+<param name="odom0_relative" value="true"/> 
+<param name="imu0_relative" value="true"/>
+<param name="imu0_remove_gravitational_acceleration" value="false"/>
+</node>
+</launch>
+
+

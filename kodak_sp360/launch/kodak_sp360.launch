@@ -1,0 +1,6 @@
+<launch>
+  <node name="kodak_sp360_publisher" pkg="kodak_sp360" type="kodak_sp360_node"
+	output="screen" respawn="true" >
+  </node>
+
+</launch>

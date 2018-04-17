@@ -1,0 +1,9 @@
+<!-- @author Jose Alvarez-Ruiz
+	 @date   June 2016
+-->
+
+<launch>
+  <node pkg="tf" type="static_transform_publisher" name="imu_tf_publisher_1"
+		args= "0.19 0.085 0.39 0.0 0.0 0.0 base_footprint imu 100"
+		respawn="true" /> 
+</launch>
