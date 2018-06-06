@@ -50,6 +50,7 @@ rosrun fub_sound fub_sound_server.py
 
   <!-- <include file="$(find autonomos_stereo_camera)/launch/autonomos_stereo_camera.launch"/> -->
   
+  <include file="$(find fub_holistic_visual_localization)/launch/flippers_and_omnicamerainfo.launch" />  
   
    <include file="$(find lc_gps_imu)/launch/lc_gps_imu.launch" /> 
 
