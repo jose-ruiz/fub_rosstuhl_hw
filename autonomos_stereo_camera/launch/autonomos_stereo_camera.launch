@@ -15,11 +15,11 @@
 
   </group>
   <!-- <include file="$(find autonomos_stereo_camera)/launch/point_cloud.launch" /> -->
-  <node pkg="viso2_ros" type="stereo_odometer" name="viso2_stereo_odometer"
-		respawn="true" output="screen">
+  <!-- <node pkg="viso2_ros" type="stereo_odometer" name="viso2_stereo_odometer" -->
+  <!-- 		respawn="true" output="screen"> -->
 		
-  	<remap from="stereo" to="/autonomos_stereo" />
-  	<remap from="image" to="image_rect" />
-  </node>
+  <!-- 	<remap from="stereo" to="/autonomos_stereo" /> -->
+  <!-- 	<remap from="image" to="image_rect" /> -->
+  <!-- </node> -->
 
 </launch>

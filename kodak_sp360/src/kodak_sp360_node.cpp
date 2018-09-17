@@ -95,7 +95,7 @@ void KodakSP360::run() {
 	if (img.cols != 1024) 	
 	  continue;
 	sensor_msgs::ImagePtr msg= cv_bridge::CvImage(std_msgs::Header(), "bgr8", img).toImageMsg();
-	msg->header.frame_id= "omnicam2";
+	msg->header.frame_id= "omnicamera2";
 	msg->header.stamp= time;
 	
 	img_publisher_.publish(msg);

@@ -17,6 +17,10 @@ find_package(catkin REQUIRED COMPONENTS
   )
 
 
+find_package(OpenCV REQUIRED)
+link_libraries(${OpenCV_LIBRARIES})
+
+
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(EIGEN3 eigen3)
 include_directories(${EIGEN3_INCLUDE_DIRS})
