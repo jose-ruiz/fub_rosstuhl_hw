@@ -39,6 +39,10 @@ CANConnection::CANConnection()
   descriptor_= -1;
 }
 
+CANConnection::~CANConnection() {
+  kill();
+}
+
 void CANConnection::connect(const std::string iface)
 {
   if (descriptor_ != -1)
@@ -64,6 +68,12 @@ void CANConnection::connect(const std::string iface)
 
 void CANConnection::send(const CANMessage& msg) 
 {
+
+  // No data is send in the just listen mode
+#ifdef XENO_CAN_JUST_LISTEN
+  write_error_= false;
+  return;
+#endif
   auto result= write(descriptor_, &msg, sizeof(can_frame));
   if (result == -1)
 	{
@@ -122,6 +132,7 @@ bool CANConnection::receive(CANMessage& msg)
 
 void CANConnection::kill() {
   close(descriptor_);
+  descriptor_= -1;
 }
 
 /******************************************************************************
@@ -134,7 +145,7 @@ XenoCANBase::XenoCANBase(const std::string iface)
 }
 
 XenoCANBase::~XenoCANBase()
-{
+{ 
   enableJoystick();
   connection_.kill();
 }

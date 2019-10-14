@@ -70,6 +70,12 @@ class CANConnection
    * @brief Connects to a CAN interface.
    * @param iface The name of the CAN bus interface to connect to, e.g. "can0";
    */
+
+  /**
+   * Disconnects from device and destroys object
+   */
+  ~CANConnection();
+
   void connect(const std::string iface);
 
   /**
@@ -91,9 +97,9 @@ class CANConnection
   bool readError() const noexcept;
   bool error() const noexcept;
   
-   bool receive(CANMessage& msg);
+  bool receive(CANMessage& msg);
 
-   void kill();
+  void kill();
    
  protected:
    int descriptor_;    ///< file descriptor for  CAN I/O
@@ -101,10 +107,10 @@ class CANConnection
 
  private:
    /**
-	* @brief Returns if there is either incomming CAN data or if a timeout is
-	* exceeded.
-	* @returns returns 0 if timeout, 1 if input available, -1 if error.
-	*/
+    * @brief Returns if there is either incomming CAN data or if a timeout is
+    * exceeded.
+    * @returns returns 0 if timeout, 1 if input available, -1 if error.
+    */
    std::atomic<bool> write_error_;
    std::atomic<bool> read_error_;   
    int inputTimeout() const;

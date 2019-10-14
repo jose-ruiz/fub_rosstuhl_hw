@@ -4,13 +4,17 @@ project(xeno_can)
 ### Enable modern C++ features
 add_definitions(-std=c++11)
 
+#add_definitions(-DXENO_CAN_JUST_LISTEN)
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-
 )
+
+find_package(Curses REQUIRED)
+
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -124,9 +128,11 @@ include_directories(
 
 ## Declare a C++ library
 add_library(xeno_can
-  src/xeno_can.cpp
-  )
+  src/xeno_can.cpp)
 
+
+add_executable(xeno_can_test src/xeno_can_test.cpp)
+target_link_libraries(xeno_can_test xeno_can ${CURSES_LIBRARIES} ${catkin_LIBRARIES})
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure

@@ -17,7 +17,8 @@ int main(int argc, char *argv[])
   controller_manager::ControllerManager cm(&xeno, nh);
   ros::AsyncSpinner spinner(1);
   spinner.start();
-
+  Xeno xeno;
+  JoystickCommand cmd;
   auto prev_time= ros::Time::now();
   ros::Rate rate(100.0);
   while (ros::ok())

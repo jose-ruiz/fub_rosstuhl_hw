@@ -1,6 +1,6 @@
 127.0.0.1	localhost
 127.0.1.1	xeno
-
+192.168.2.101 insecteyes
 192.168.2.10    asc-1
 
 # The following lines are desirable for IPv6 capable hosts

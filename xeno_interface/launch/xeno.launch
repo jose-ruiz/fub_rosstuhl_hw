@@ -47,14 +47,10 @@ rosrun fub_sound fub_sound_server.py
     </include>
   
   </group> 
-
-  <!-- <include file="$(find autonomos_stereo_camera)/launch/autonomos_stereo_camera.launch"/> -->
   
    <include file="$(find lc_gps_imu)/launch/lc_gps_imu.launch" /> 
-
    <node name="wifi_info_publisher" pkg="fub_route_following"
 		 type="wifi_info_publisher_node.py" output="screen" respawn="true"/>
-
    <node pkg="fub_sound" type="fub_sound_server.py" name="fu_sound_server"
 		respawn="true" />
 
